@@ -1,0 +1,26 @@
+<script>
+  fetch('nav.html').then(res => res.text()).then(html => {
+    document.getElementById('nav').innerHTML = html;
+  });
+
+  document.getElementById('regForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    let role = document.getElementById('role').value;
+
+    // Load existing users
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Add new user
+    users.push({ name, email, password, role });
+
+    // Save updated list
+    localStorage.setItem('users', JSON.stringify(users));
+
+    alert("Registration successful!");
+    window.location.href = "login.html";
+  });
+</script>

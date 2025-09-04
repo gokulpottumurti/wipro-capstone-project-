@@ -1,0 +1,65 @@
+ 
+ <!DOCTYPE html>
+<html>
+<head>
+   
+    <title>Geolocation Example</title>
+    <script type="" src=""></script>
+</head>
+<body>
+    <h1>Geolocation Example</h1>
+ 
+    <button onclick="getLocation()">Get Current Location</button>
+ 
+    <p id="status">Status: Idle</p>
+    <p>Latitude: <span id="lat">-</span></p>
+    <p>Longitude: <span id="lon">-</span></p>
+    <p>Accuracy (meters): <span id="acc">-</span></p>
+    <p>Timestamp: <span id="ts">-</span></p>
+ 
+    <p>
+        <a id="maps-link" href="#" target="_blank">Open in Google Maps</a>
+    </p>
+ 
+    <iframe id="map" width="400" height="300"></iframe>
+ 
+    <p id="error" style="color:red;"></p>
+ 
+    <script>
+        function getLocation() {
+            if (!navigator.geolocation) {
+                document.getElementById("error").innerText = "Geolocation is not supported by your browser.";
+                return;
+            }
+ 
+            document.getElementById("status").innerText = "Status: Getting location...";
+ 
+            navigator.geolocation.getCurrentPosition(success, error, { enableHighAccuracy: true });
+        }
+ 
+        function success(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var acc = position.coords.accuracy;
+            var ts = new Date(position.timestamp).toLocaleString();
+ 
+            document.getElementById("lat").innerText = lat;
+            document.getElementById("lon").innerText = lon;
+            document.getElementById("acc").innerText = acc;
+            document.getElementById("ts").innerText = ts;
+ 
+            document.getElementById("maps-link").href = `https://www.google.com/maps?q=${lat},${lon}`;
+            document.getElementById("map").src = `https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+ 
+            document.getElementById("status").innerText = "Status: Location obtained";
+            document.getElementById("error").innerText = "";
+        }
+ 
+        function error(err) {
+            document.getElementById("error").innerText = "Error: " + err.message;
+            document.getElementById("status").innerText = "Status: Error";
+        }
+    </script>
+</body>
+</html>
+ 

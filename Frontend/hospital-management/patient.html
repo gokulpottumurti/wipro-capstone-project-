@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital Management - Patient</title>
+</head>
+<body>
+  <div id="nav"></div>
+  <h2>Patient Information</h2>
+  <ul id="patients"></ul>
+
+  <script>
+    // Load navbar
+    fetch('nav.html').then(res => res.text()).then(html => {
+      document.getElementById('nav').innerHTML = html;
+    });
+
+    // Load patients from localStorage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let patientList = document.getElementById('patients');
+
+    let patients = users.filter(u => u.role === 'patient');
+    if (patients.length === 0) {
+      patientList.innerHTML = "<li>No patients registered yet.</li>";
+    } else {
+      patients.forEach(p => {
+        let li = document.createElement('li');
+        li.textContent = `${p.name} - Registered Patient`;
+        patientList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

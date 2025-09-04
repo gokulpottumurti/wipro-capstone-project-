@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital Management - Doctor</title>
+</head>
+<body>
+  <div id="nav"></div>
+  <h2>Doctor Information</h2>
+  <ul id="doctors"></ul>
+
+  <script>
+    // Load navbar
+    fetch('nav.html').then(res => res.text()).then(html => {
+      document.getElementById('nav').innerHTML = html;
+    });
+
+    // Load doctors from localStorage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let doctorList = document.getElementById('doctors');
+
+    let doctors = users.filter(u => u.role === 'doctor');
+    if (doctors.length === 0) {
+      doctorList.innerHTML = "<li>No doctors registered yet.</li>";
+    } else {
+      doctors.forEach(doc => {
+        let li = document.createElement('li');
+        li.textContent = `${doc.name} - Registered Doctor`;
+        doctorList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
